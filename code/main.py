@@ -25,8 +25,8 @@ app.add_middleware(
 )
 
 minioClient = Minio('127.0.0.1:9000',
-                access_key=os.getenv(key='MINIO_ACCESS_KEY', default='minio'),
-                secret_key=os.getenv(key='MINIO_SECRET_KEY', default='minio123'),
+                access_key='minio',
+                secret_key='minio123',
                 secure=False)
 
 
