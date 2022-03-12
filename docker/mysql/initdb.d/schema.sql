@@ -1,0 +1,7 @@
+
+CREATE TABLE excel (
+    id INT NOT NULL AUTO_INCREMENT,
+    filepath VARCHAR(255) NOT NULL,
+    name VARCHAR(30) NOT NULL,
+    PRIMARY KEY (id)
+);

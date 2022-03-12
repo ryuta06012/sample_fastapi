@@ -1,0 +1,10 @@
+mysqlclient
+sqlalchemy
+uvicorn
+fastapi
+jinja2
+python-multipart
+openpyxl
+tabula
+pathlib
+minio
