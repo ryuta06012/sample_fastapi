@@ -8,6 +8,7 @@ import shutil
 import os
 from convert import InformationInput, Convert
 from minio import Minio
+import boto3
 
 app = FastAPI()
 
@@ -24,18 +25,23 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-minioClient = Minio('127.0.0.1:9000',
-                access_key='minio',
-                secret_key='minio123',
-                secure=False)
-
-
+#s3_endpoint_url = os.getenv('AWS_S3_ENDPOINT_URL', None)
+#print("-------------",s3_endpoint_url)
+s3 = boto3.client("s3",'us-east-1', endpoint_url="http://127.0.0.1:9000",
+                         aws_access_key_id="minio",
+                         aws_secret_access_key="minio123")
 # ----------APIの定義------------
 #minioからformat.xlsxを取得 GET
+@app.post('/Upload/')
+async def upload_file(file: UploadFile = File(...)):
+    res = s3.list_objects_v2(Bucket='bucket-name')
+    return {'ret': res}
+
 @app.get("/download")
 async def format_file_set():
-    dl = minioClient.fget_object("export", "develop", "format.xlsx")
-    return {"dl": dl}
+    #res = s3.list_objects_v2(Bucket='localo-pdf2excel')
+    contents = s3.list_objects(Bucket="localo-pdf2excel")
+    return {'res': contents}
 
 def allowed_file(filename):
     return '.' in filename and \
